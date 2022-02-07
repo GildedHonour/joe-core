@@ -37,6 +37,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
 };
 
+
+//debug
 console.log("#2 SimpleRewarderPerSec  ok")
 
 module.exports.tags = ["SimpleRewarderPerSec"];

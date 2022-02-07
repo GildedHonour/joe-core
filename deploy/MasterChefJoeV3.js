@@ -16,10 +16,18 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   // await dummyToken.renounceOwnership(); //will cause an exception when called a 2nd and more times
   //fixme -- add try { } catch(e) {...}
 
-  // or use
-  // if ((await dummyToken.owner()) !== ZERO_ADDRESS) {
-      // await dummyToken.renounceOwnership();
+  // try {
+  //   await dummyToken.renounceOwnership();
+  // } catch(err) {
+  //   console.log(`${err}\r\n\r\n`);
+  //   console.log(`no worries, the function 'dummyToken.renounceOwnership(...)' could've been already called during the previous deploy`);
   // }
+
+
+  // or
+  if ((await dummyToken.owner()) !== ZERO_ADDRESS) {
+      await dummyToken.renounceOwnership();
+  }
 
 
 
@@ -47,7 +55,15 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   // await (await mcv2.add(100, dummyToken.address, rewarder.address)).wait();
 
 
-  // await (await dummyToken.approve(mcv3.address, PID)).wait();
+  await (await dummyToken.approve(mcv3.address, PID)).wait();
+
+
+  try {
+    await (await mcv2.add(100, dummyToken.address, rewarder.address)).wait();
+  } catch(err) {
+    console.log(`${err}\r\n\r\n`);
+    console.log(`no worries, the function 'mcv2.add(...)' could've been already called during the previous deploy`);
+  }
 
 
   await rewarder.init(dummyToken.address, {
