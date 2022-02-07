@@ -1,10 +1,7 @@
 module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   const { deploy } = deployments;
-
   const { deployer } = await getNamedAccounts();
-
   const chef = await ethers.getContract("MasterChefJoeV2");
-
   const { address } = await deploy("CustomMasterChefJoeV2Timelock", {
     from: deployer,
     args: [

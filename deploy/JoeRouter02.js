@@ -2,9 +2,7 @@ const { WAVAX } = require("@traderjoe-xyz/sdk");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy } = deployments;
-
   const { deployer } = await getNamedAccounts();
-
   const chainId = await getChainId();
 
   let wavaxAddress;

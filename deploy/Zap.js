@@ -18,8 +18,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   try {
     await zap.initialize(joe.address, router.address);
   } catch(err) {
-    console.log("Error in `zap.initialize(...)`; no worries - it could've been initilized already;")
-    console.log(`details: ${err}\r\n\r\n`)
+    console.log(`${err}\r\n\r\n`);
+    console.log(`no worries, the function 'zap.initialize(...)' could've been already called during the previous deploy`);
   }
 };
 

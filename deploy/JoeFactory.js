@@ -8,7 +8,6 @@ module.exports = async function ({
   getChainId,
 }) {
   const { deploy } = deployments;
-
   const { deployer, dev } = await getNamedAccounts();
 
   await deploy("JoeFactory", {

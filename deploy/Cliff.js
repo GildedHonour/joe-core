@@ -1,10 +1,7 @@
 module.exports = async function ({ ethers, getNamedAccounts, deployments }) {
   const { deploy } = deployments;
-
   const { deployer, dev } = await getNamedAccounts();
-
   const chainId = await getChainId();
-
   const joe = await ethers.getContract("JoeToken");
 
   await deploy("Cliff", {

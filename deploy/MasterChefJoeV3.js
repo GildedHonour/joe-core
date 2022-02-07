@@ -1,9 +1,8 @@
 module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   const { deploy } = deployments;
-
   const { deployer, dev, treasury, investor } = await getNamedAccounts();
-
   const PID = 66;
+  const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
   await deploy("ERC20Mock", {
     from: deployer,
@@ -12,24 +11,57 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
     deterministicDeployment: false,
   });
   const dummyToken = await ethers.getContract("ERC20Mock");
-  await dummyToken.renounceOwnership();
+
+
+  // await dummyToken.renounceOwnership(); //will cause an exception when called a 2nd and more times
+  //fixme -- add try { } catch(e) {...}
+
+  // or use
+  // if ((await dummyToken.owner()) !== ZERO_ADDRESS) {
+      // await dummyToken.renounceOwnership();
+  // }
+
+
+
+
   const joe = await ethers.getContract("JoeToken");
-  const MCV2 = await ethers.getContract("MasterChefJoeV2");
+  const mcv2 = await ethers.getContract("MasterChefJoeV2");
 
-  const { address } = await deploy("MasterChefJoeV3", {
-    from: deployer,
-    args: [MCV2.address, joe.address, PID],
-    log: true,
-    deterministicDeployment: false,
-  });
-  const MCV3 = await ethers.getContract("MasterChefJoeV3");
+  // // const { address } = await deploy("MasterChefJoeV3", {
+  // //   from: deployer,
+  // //   args: [mcv2.address, joe.address, PID],
+  // //   log: true,
+  // //   deterministicDeployment: false,
+  // // });
+  const mcv3 = await ethers.getContract("MasterChefJoeV3");
 
-  await (await MCV2.add(100, dummyToken.address, false)).wait();
-  await (await dummyToken.approve(MCV3.address, PID)).wait();
+
+
+
+
+  const rewarder = await ethers.getContract("MasterChefRewarderPerBlock");
+  // const rewarder = await ethers.getContract("SimpleRewarderPerSec");
+
+  //fixme -- add try { } catch(e) {...}
+  // await (await mcv2.add(100, dummyToken.address, false)).wait(); // wrong
+  // await (await mcv2.add(100, dummyToken.address, rewarder.address)).wait();
+
+
+  // await (await dummyToken.approve(mcv3.address, PID)).wait();
+
+
   await rewarder.init(dummyToken.address, {
     gasLimit: 245000,
   });
 };
 
 module.exports.tags = ["MasterChefJoeV3"];
-module.exports.dependencies = ["JoeFactory", "JoeRouter02", "JoeToken"];
+module.exports.dependencies = [
+  "JoeFactory",
+  "JoeRouter02",
+  "JoeToken",
+  "MasterChefJoeV2",
+
+  /*"SimpleRewarderPerSec",*/
+  "MasterChefRewarderPerBlock"
+];

@@ -1,11 +1,8 @@
 // Deploy for testing of MasterChefJoeV2
 module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
   const { deploy } = deployments;
-
   const { deployer, dev, treasury } = await getNamedAccounts();
-
   const sushi = await ethers.getContract("SushiToken");
-
   const { address } = await deploy("MasterChef", {
     from: deployer,
     args: [

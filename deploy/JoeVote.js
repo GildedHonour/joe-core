@@ -1,11 +1,10 @@
 const JOE_AVAX_LP = new Map();
 JOE_AVAX_LP.set("4", "0xab9ba8c7e7b00381027061a8506d895e8938060b");
+JOE_AVAX_LP.set("43113", "0xF7Cd6FEB33Df1300121F4a757BaA25CA06B8D3EA"); //Avalanche > Fuji
 
 module.exports = async function ({ ethers, getNamedAccounts, deployments }) {
   const { deploy } = deployments;
-
   const { deployer } = await getNamedAccounts();
-
   const chainId = await getChainId();
 
   if (!JOE_AVAX_LP.has(chainId)) {

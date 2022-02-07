@@ -1,8 +1,6 @@
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy } = deployments;
-
   const { deployer } = await getNamedAccounts();
-
   const joe = await deployments.get("JoeToken");
 
   await deploy("JoeBar", {

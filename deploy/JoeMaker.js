@@ -2,11 +2,8 @@ const { WAVAX } = require("@traderjoe-xyz/sdk");
 
 module.exports = async function ({ ethers, getNamedAccounts, deployments }) {
   const { deploy } = deployments;
-
   const { deployer } = await getNamedAccounts();
-
   const chainId = await getChainId();
-
   const factory = await ethers.getContract("JoeFactory");
   const bar = await ethers.getContract("JoeBar");
   const joe = await ethers.getContract("JoeToken");

@@ -2,9 +2,7 @@ const { WAVAX } = require("@traderjoe-xyz/sdk");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy } = deployments;
-
   const { deployer } = await getNamedAccounts();
-
   const chainId = await getChainId();
 
   let wavaxAddress;
@@ -27,6 +25,10 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     wavaxUsdtAddress = address("0x63fce17ba68c82a322fdd5a4d03aedbedbd730fd");
     wavaxUsdcAddress = address("0x63fce17ba68c82a322fdd5a4d03aedbedbd730fd");
     wavaxDaiAddress = address("0x63fce17ba68c82a322fdd5a4d03aedbedbd730fd");
+  } else if (chainId === "43113") { //Avalanche > Fuji
+    wavaxUsdtAddress = address("???");
+    wavaxUsdcAddress = address("??");
+    wavaxDaiAddress = address("??");
   }
 
   const joeAddress = (await deployments.get("JoeToken")).address;
