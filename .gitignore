@@ -18,3 +18,4 @@ contracts/.deps/
 .idea
 .openzeppelin
 deployments/fuji/
+notes/
