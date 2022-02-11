@@ -23,6 +23,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     deterministicDeployment: false,
   });
 
+  const dummyToken = await ethers.getContract("ERC20Mock");
+
+
   await deploy("MasterChefRewarderPerBlock", {
     from: deployer,
     args: [
@@ -39,11 +42,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     deterministicDeployment: false,
   });
 
+  const rewarder = await ethers.getContract("MasterChefRewarderPerBlock");
+
 
 
   // this may be called only once, during the 1st deployment
   // may not be called a 2nd time; otherwise, will cause an error
-  const dummyToken = await ethers.getContract("ERC20Mock");
   try {
     await (await mcv1.add("100", dummyToken.address, true)).wait();
   } catch(err) {
@@ -52,7 +56,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   }
 
 
-  const rewarder = await ethers.getContract("MasterChefRewarderPerBlock");
   await dummyToken.approve(rewarder.address, "1");
   await rewarder.init(dummyToken.address, {
     gasLimit: 245000,
