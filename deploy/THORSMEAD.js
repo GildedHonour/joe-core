@@ -18,12 +18,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
   const thrmd = await ethers.getContract("THORSMEAD");
   const ft = await ethers.getContract("JoeFactory");
-  const pr1 = await ft.getPair(thrmd.address, WAVAX_FUJI);
-  if (pr1 === ZERO_ADDRESS) {
-    const pr2 = await ft.createPair(thrmd.address, WAVAX_FUJI);
-    console.log(`new pair of WAVAX and MEAD created at: ${pr2}`);
+  const prAddr1 = await ft.getPair(thrmd.address, WAVAX_FUJI);
+  if (prAddr1 === ZERO_ADDRESS) {
+    const prAddr2 = await ft.createPair(thrmd.address, WAVAX_FUJI);
+    console.log(`new pair of WAVAX and MEAD created at: ${prAddr2}`);
   }
 };
 
 module.exports.tags = ["THORSMEAD"];
-module.exports.dependencies = ["JoeRouter02"];
+module.exports.dependencies = ["JoeRouter02", "JoeFactory"];

@@ -49,7 +49,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   // this may be called only once, during the 1st deployment
   // may not be called a 2nd time; otherwise, will cause an error
   try {
+    console.log("[*] adding 100 tokens to dummyToken...");
     await (await mcv1.add("100", dummyToken.address, true)).wait();
+    console.log("[*] ok");
   } catch(err) {
     console.log(`${err}\r\n`);
     console.log(`[*] no worries, the function 'mcv1.add(...)' could've been already called during the previous deploy`);

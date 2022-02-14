@@ -2,9 +2,12 @@
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
+  const WAVAX_FUJI = "0xd00ae08403B9bbb9124bB305C09058E32C39A48c"; //todo - into a helper
 
   // const rewardToken = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
   const rewardToken = "0xd00ae08403B9bbb9124bB305C09058E32C39A48c"; //WAVAX on Avalanche > Fuji
+
+
 
 
   //JoePair:
@@ -13,8 +16,17 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   //
   // const lpToken = "0xb97F23A9e289B5F5e8732b6e20df087977AcC434";
 
-  const lpToken = "0xF7Cd6FEB33Df1300121F4a757BaA25CA06B8D3EA"; //old
+  // const lpToken = "0xF7Cd6FEB33Df1300121F4a757BaA25CA06B8D3EA"; //old
   // const lpToken = "???"; //on Avalanche Fuji
+
+  const thrmd = await ethers.getContract("THORSMEAD");
+  const ft = await ethers.getContract("JoeFactory");
+
+
+  const lpToken = await ft.getPair(thrmd.address, WAVAX_FUJI);
+  console.log(`SimpleRewarderPerSec > lpToken: ${lpToken}`)
+
+
 
 
   const mcv3 = await ethers.getContract("MasterChefJoeV3");

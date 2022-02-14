@@ -31,7 +31,9 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
 
   //2
   if ((await dummyToken.owner()) !== ZERO_ADDRESS) {
+      console.log("[*] renouncing ownership of dummyToken...");
       await dummyToken.renounceOwnership();
+      console.log("[*] ok");
   }
 
 
@@ -46,8 +48,10 @@ module.exports = async function ({ ethers, deployments, getNamedAccounts }) {
 
   const rewarder = await ethers.getContract("MasterChefRewarderPerBlock"); // or "SimpleRewarderPerSec"?
   try {
+    console.log("[*] adding 100 tokens to dummyToken...");
     await (await mcv2.add(100, dummyToken.address, rewarder.address)).wait();
-  } catch(err) {
+    console.log("[*] ok");
+  } catch (err) {
     console.log(`${err}\r\n`);
     console.log(`[*] no worries, the function 'mcv2.add(...)' could've been already called during the previous deploy`);
   }
@@ -69,5 +73,4 @@ module.exports.dependencies = [
 
   /*"SimpleRewarderPerSec",*/
   "MasterChefRewarderPerBlock"
-
 ];
